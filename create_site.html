@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Site</title>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <h1>Create Site</h1>
+    <form id="create-site-form">
+        <label for="ip-address">IP Address:</label><br>
+        <input type="text" id="ip-address" name="ip-address" required><br><br>
+
+        <label for="port">Port:</label><br>
+        <input type="text" id="port" name="port" required><br><br>
+
+        <label for="site-name">Site Name:</label><br>
+        <input type="text" id="site-name" name="site-name" required><br><br>
+
+        <label for="site-number">Site Number:</label><br>
+        <input type="text" id="site-number" name="site-number" required><br><br>
+
+        <input type="submit" value="Create Site">
+    </form>
+
+    <!-- Firebase configuration and initialization -->
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyCjiSpI45DmAO1Kfpg3t80C0iFaeRDxlnA",
+          authDomain: "tank-levels-57ndh5.firebaseapp.com",
+          databaseURL: "https://tank-levels-57ndh5-default-rtdb.firebaseio.com",
+          projectId: "tank-levels-57ndh5",
+          storageBucket: "tank-levels-57ndh5.appspot.com",
+          messagingSenderId: "1039798111105",
+          appId: "1:1039798111105:web:51e2079f34a2d3ff85b680"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const form = document.getElementById('create-site-form');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const ipAddress = form['ip-address'].value;
+            const port = form['port'].value;
+            const siteName = form['site-name'].value;
+            const siteNumber = form['site-number'].value;
+
+            // Add a new document with a generated ID
+            db.collection("sites").add({
+                ipAddress: ipAddress,
+                port: port,
+                siteName: siteName,
+                siteNumber: siteNumber
+            })
+            .then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+                // Reset form after successful submission
+                form.reset();
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+        });
+    </script>
+</body>
+</html>
